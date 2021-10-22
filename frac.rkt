@@ -38,13 +38,33 @@
 
 
 
+
 (print "Enter the first part of the mixed fraction")
 (define x (read-line))
 (define y (read-line))
 (define z (read-line))
-
 (define mix (cons x (cons y z)))
+ 
+
+
 
 (define (simplify-mixed) (if (pair? mix) (print (car mix))  (print "no")))
 
 
+;normal
+(display (car mix))
+(display "\n")
+(display "-")
+(display "\n")
+(display (cdr mix))
+(display "\n")
+
+;Mixed
+(display "  ")
+(display (cddr mix))
+(display "\n")
+(display (car mix))
+(display " -")
+(display "\n")
+(display "  ")
+(display (cadr mix))
