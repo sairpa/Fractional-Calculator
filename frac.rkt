@@ -4,11 +4,12 @@
 
 ;  ----------------------------------------
 ; | Team Members:                         |
-; | Elavenil P - CB.EN.U4CSE18114         | 
+; | Elavenil P - CB.EN.U4CSE18115         | 
 ; | Hari Hara Sudhan  - CB.EN.U4CSE18119  |
 ; | R Pranav Ajay - CB.EN.U4CSE18140      |
 ; | Prathish S - CB.EN.U4CSE18141         |
 ;  ----------------------------------------
+
 
 ; Problem - 8
 ; A Program to simulate Fractional Calaculator using data and procedural abstraction
@@ -27,39 +28,134 @@
 ;;--------------------------------------------------------------------------------------------------------
 
 
-(define (numerator x)
-  (car x )
+;Welcome Screen
+
+(display "Welcome to Fractional Calculator")
+(display "\n")
+(display "Operations Supported:")
+(display "\n")
+(display "1. Addition")
+(display "\n")
+(display "2. Subtraction")
+(display "\n")
+(display "3. Multiplication")
+(display "\n")
+(display "4. Division")
+(display "\n")
+(display "5. Exponentiation")
+(display "\n")
+(display "6. Inverse")
+(display "\n")
+(display "7. Equality")
+(display "\n")
+(display "8. Conversion of Types")
+(display "\n")
+(display "Input your choice as a number")
+(display "\n")
+(define operation (read-line))
+
+
+; Operation Chooser
+
+
+(cond
+  [(equal? operation "1") (print "Addition")]
+  [(equal? operation "2") (print "Addition")]
+  [(equal? operation "3") (print "Addition")]
+  [(equal? operation "4") (print "Addition")]
+  [(equal? operation "5") (print "Addition")]
+  [(equal? operation "6") (print "Addition")]
+  [(equal? operation "7") (print "Addition")]
+  [(equal? operation "8") (print "Addition")]
+  )
+
+
+
+
+; Input Switcher
+
+(display "Choose the type of fraction")
+(display "\n")
+(display "1. Proper/Improper Fraction")
+(display "\n")
+(display "2. Mixed Fraction")
+(display "\n")
+(display "3. Complex Fraction")
+(display "\n")
+(define ftype (read-line))
+
+(cond
+  [(equal? ftype "1") (
+                       (display "Input the fraction as 2 numbers - the numerator and the denominator")
+                       (normal_fraction_input)
+                       )]
+  [(equal? ftype "2") (
+                       (display "Input the fraction as 3 numbers - the whole number part, the numerator and the denominator")
+                       (mixed_fraction_input)
+                       )]
+  [(equal? ftype "3") (
+                       (display "Input the 2 fraction one by one")
+                       (display "\n")
+                       (complex_fraction_input)
+                       )]
+  )
+
+
+;INPUT TYPE
+
+;NORMAL FRACTION
+
+(define (normal_fraction_input)
+  (print "Enter the numerator")
+  (define a (read-line))
+  (print "Enter the denominator")
+  (define b (read-line))
+  (define norm (cons a b))
+  (normal-display norm)
 )
+  
 
-(define (denominator x)
-  (cdr x)
-)
+;MIXED FRACTION
 
-
-
-
-
-(print "Enter the first part of the mixed fraction")
-(define x (read-line))
-(define y (read-line))
-(define z (read-line))
-(define mix (cons x (cons y z)))
- 
+(define (mixed_fraction_input)
+  (print "Enter the first part of the mixed fraction")
+  (define x (read-line))
+  (define y (read-line))
+  (define z (read-line))
+  (define mix (cons x (cons y z)))
+  (mixed-display mix)
+  )
 
 
+;COMPLEX FRACTION
+  
+(define (complex_fraction_input)
+  (display "Input the first fraction as 2 numbers")
+  (define num1 (read-line))
+  (define denom1 (read-line))
+  (display "Input the first fraction as 2 numbers")
+  (define num2 (read-line))
+  (define denom2 (read-line))
+  (define complex (cons (cons (num1 denom1 1)) (cons (num2 denom2))))
+  (complex-display complex)
+  )
 
-(define (simplify-mixed) (if (pair? mix) (print (car mix))  (print "no")))
+(define (simplify-mixed mix) (if (pair? mix) (print (car mix))  (print "no")))
 
+;DISPLAY PROCEDURE
 
-;normal
-(display (car mix))
+;normal-----------------------------
+(define (normal-display norm)
+(display (car norm))
 (display "\n")
 (display "-")
 (display "\n")
-(display (cdr mix))
+(display (cdr norm))
 (display "\n")
+  )
 
 ;Mixed
+(define (mixed-display mix)
 (display "  ")
 (display (cddr mix))
 (display "\n")
@@ -68,3 +164,138 @@
 (display "\n")
 (display "  ")
 (display (cadr mix))
+  )
+
+;complex-----------------------------
+(define (complex-display norm)
+(display (car norm))
+(display "\n")
+(display "-")
+(display "\n")
+(display (cdr norm))
+(display "\n")
+  )
+
+;HELPER FUNCTIONS
+
+(define (GCD a b)
+  (if (= b 0)
+      a
+      (GCD b (modulo a b))
+      )
+  )
+
+(define (simplify n d)
+  (if (> n d)
+      (let ()
+      (define z (GCD n d)) (define disp (cons (/ n z) (/ d z)))
+  (normal-display disp))
+      (let ()
+      (define z (GCD d n)) (define disp (cons (/ n z) (/ d z)))
+  (normal-display disp))
+      ) 
+  )
+
+
+(define (numerator x)
+  (car x )
+)
+
+(define (denominator x)
+  (cdr x)
+)
+
+  
+
+;OPERATIONS
+
+;ADDITION
+
+(define (addition x y)
+  (define n1 (+ (* (car x) (cdr y))(* (car y) (cdr x))))
+  (define d1 (* (cdr x)(cdr y)))
+  (simplify n1 d1))
+  
+;SUBRACTION
+
+(define (subraction x y)
+  (define n1 (- (* (car x) (cdr y))(* (car y) (cdr x))))
+  (define d1 (* (cdr x)(cdr y)))
+  (simplify n1 d1))
+
+;MULTIPLICATION
+
+(define (multiplication x y)
+  (define n1 (* (car x) (car y)))
+  (define d1 (* (cdr x)(cdr y)))
+  (simplify n1 d1)
+  )
+
+;DIVISION
+
+(define (division x y)
+  (define n1 (* (car x) (cdr y)))
+  (define d1 (* (cdr x)(car y)))
+  (simplify n1 d1)
+  )
+
+;INVERSION
+
+(define (inversion x)
+  (normal-display (cons (cdr x)(car x)))
+  )
+
+;EQUALITY
+
+(define (equality x y)
+  (define e1 (/ (car x)(cdr x)))
+  (define e2 (/ (car y)(cdr y)))
+  (if (= e1 e2)
+      "Fractions are equal"
+      "Fractions are not equal")
+  )
+
+  
+;EXPONENT
+
+(define (helper-exponent n e)
+  (if (= e 1)
+      n
+      (* n (helper-exponent n (- e 1)))
+  )
+ )
+
+         
+(define (exponent x exp)
+  (define n1 (helper-exponent (car x) exp))
+  (define d1 (helper-exponent (cdr x) exp))
+  (simplify n1 d1)
+)
+
+; CONVERSION OF TYPES
+
+; Normal to Mixed Fraction :D
+
+
+(define (convert-to-mixed x)
+  (define n (numerator x))
+   (define d (denominator x))
+   (define newn (quotient n d))
+   (define re (remainder n d))
+   (define gcd (GCD n d))
+   (define newd (/ d gcd))
+   (mixed-display (cons newn (cons newd re )))
+   )
+
+; Mixed to Normal Fraction :D
+
+(define (mixed-to-normal x)
+  (define num (cadr x))
+  (define denom (cddr x))
+  (define re (car x))
+  (define newn (+ (* re denom) num))
+  (define frac (cons newn denom))
+  (normal-display frac)
+  )
+
+

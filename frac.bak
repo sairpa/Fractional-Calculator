@@ -1,1 +1,278 @@
 #lang racket
+
+; GROUP - 7
+
+;  ----------------------------------------
+; | Team Members:                         |
+; | Elavenil P - CB.EN.U4CSE18115         | 
+; | Hari Hara Sudhan  - CB.EN.U4CSE18119  |
+; | R Pranav Ajay - CB.EN.U4CSE18140      |
+; | Prathish S - CB.EN.U4CSE18141         |
+;  ----------------------------------------
+
+
+; Problem - 8
+; A Program to simulate Fractional Calaculator using data and procedural abstraction
+
+; MODULE 1 It is expected that the calculator should be capable of handling proper fraction, improper fraction and mixed fractions. 
+; MODULE 2 The calculator should be capable of doing all the necessary arithmetic: addition, subtraction, multiplication, division, inversion, equality, conversion between types of fractions etc.
+; MODULE 3 The calculator should reduce the resultant fractions to their lowest terms
+; MODULE 4 As said above, the calculator should seemingly handle all the three types of fractions: proper, improper and mixed fractions. It is also expected to handle complex fractions as well.;
+; MODULE 5 Note that complex fractions are those fractions where the numerator, denominator, or both contain a fraction.
+; MODULE 6 It is expected to handle the power of fractions (Note that the powers (exponents) could be either integral or fractional) as well
+; MODULE 7 The calculator should display the results in a clutter free mathematical standard format.
+
+
+;;--------------------------------------------------------------------------------------------------------
+;;                                              CODE                                                     |
+;;--------------------------------------------------------------------------------------------------------
+
+
+;Welcome Screen
+
+(display "Welcome to Fractional Calculator")
+(display "\n")
+(display "Operations Supported:")
+(display "\n")
+(display "1. Addition")
+(display "\n")
+(display "2. Subtraction")
+(display "\n")
+(display "3. Multiplication")
+(display "\n")
+(display "4. Division")
+(display "\n")
+(display "5. Exponentiation")
+(display "\n")
+(display "6. Inverse")
+(display "\n")
+(display "7. Equality")
+(display "\n")
+(display "8. Conversion of Types")
+(display "\n")
+(display "Input your choice as a number")
+(display "\n")
+(define operation (read-line))
+
+
+; Operation Chooser
+
+
+(cond
+  [(equal? operation "1") (print "Addition")]
+  [(equal? operation "2") (print "Addition")]
+  [(equal? operation "3") (print "Addition")]
+  [(equal? operation "4") (print "Addition")]
+  [(equal? operation "5") (print "Addition")]
+  [(equal? operation "6") (print "Addition")]
+  [(equal? operation "7") (print "Addition")]
+  [(equal? operation "8") (print "Addition")]
+  )
+
+
+
+
+; Input Switcher
+
+(display "Choose the type of fraction")
+(display "\n")
+(display "1. Proper/Improper Fraction")
+(display "\n")
+(display "2. Mixed Fraction")
+(display "\n")
+(display "3. Complex Fraction")
+(display "\n")
+(define ftype (read-line))
+
+(cond
+  [(equal? ftype "1") (
+                       (display "Input the fraction as 2 numbers - the numerator and the denominator")
+                       (normal_fraction_input)
+                       )]
+  [(equal? ftype "2") (
+                       (display "Input the fraction as 3 numbers - the whole number part, the numerator and the denominator")
+                       (mixed_fraction_input)
+                       )]
+  [(equal? ftype "3") (
+                       (display "Input the 2 fraction one by one")
+                       (display "\n")
+                       (complex_fraction_input)
+                       )]
+  )
+
+
+;INPUT TYPE
+
+;NORMAL FRACTION
+
+(define (normal_fraction_input)
+  (print "Enter the numerator")
+  (define a (read-line))
+  (print "Enter the denominator")
+  (define b (read-line))
+  (define norm (cons a b))
+  (normal-display norm)
+)
+  
+
+;MIXED FRACTION
+
+(define (mixed_fraction_input)
+  (print "Enter the first part of the mixed fraction")
+  (define x (read-line))
+  (define y (read-line))
+  (define z (read-line))
+  (define mix (cons x (cons y z)))
+  (mixed-display mix)
+  )
+
+
+;COMPLEX FRACTION
+  
+(define (complex_fraction_input)
+  (display "Input the first fraction as 2 numbers")
+  (define num1 (read-line))
+  (define denom1 (read-line))
+  (display "Input the first fraction as 2 numbers")
+  (define num2 (read-line))
+  (define denom2 (read-line))
+  (define complex (cons (cons (num1 denom1 1)) (cons (num2 denom2))))
+  (complex-display complex)
+  )
+
+(define (simplify-mixed mix) (if (pair? mix) (print (car mix))  (print "no")))
+
+;DISPLAY PROCEDURE
+
+;normal-----------------------------
+(define (normal-display norm)
+(display (car norm))
+(display "\n")
+(display "-")
+(display "\n")
+(display (cdr norm))
+(display "\n")
+  )
+
+;Mixed
+(define (mixed-display mix)
+(display "  ")
+(display (cddr mix))
+(display "\n")
+(display (car mix))
+(display " -")
+(display "\n")
+(display "  ")
+(display (cadr mix))
+  )
+
+;complex-----------------------------
+(define (complex-display norm)
+(display (car norm))
+(display "\n")
+(display "-")
+(display "\n")
+(display (cdr norm))
+(display "\n")
+  )
+
+;HELPER FUNCTIONS
+
+(define (GCD a b)
+  (if (= b 0)
+      a
+      (GCD b (modulo a b))
+      )
+  )
+
+(define (simplify n d)
+  (if (> n d)
+      (let ()
+      (define z (GCD n d)) (define disp (cons (/ n z) (/ d z)))
+  (normal-display disp))
+      (let ()
+      (define z (GCD d n)) (define disp (cons (/ n z) (/ d z)))
+  (normal-display disp))
+      ) 
+  )
+
+
+(define (numerator x)
+  (car x )
+)
+
+(define (denominator x)
+  (cdr x)
+)
+
+  
+
+;OPERATIONS
+
+;ADDITION
+
+(define (addition x y)
+  (define n1 (+ (* (car x) (cdr y))(* (car y) (cdr x))))
+  (define d1 (* (cdr x)(cdr y)))
+  (simplify n1 d1))
+  
+;SUBRACTION
+
+(define (subraction x y)
+  (define n1 (- (* (car x) (cdr y))(* (car y) (cdr x))))
+  (define d1 (* (cdr x)(cdr y)))
+  (simplify n1 d1))
+
+;MULTIPLICATION
+
+(define (multiplication x y)
+  (define n1 (* (car x) (car y)))
+  (define d1 (* (cdr x)(cdr y)))
+  (simplify n1 d1)
+  )
+
+;DIVISION
+
+(define (division x y)
+  (define n1 (* (car x) (cdr y)))
+  (define d1 (* (cdr x)(car y)))
+  (simplify n1 d1)
+  )
+
+;INVERSION
+
+(define (inversion x)
+  (normal-display (cons (cdr x)(car x)))
+  )
+
+;EQUALITY
+
+(define (equality x y)
+  (define e1 (/ (car x)(cdr x)))
+  (define e2 (/ (car y)(cdr y)))
+  (if (= e1 e2)
+      "Fractions are equal"
+      "Fractions are not equal")
+  )
+
+  
+;EXPONENT
+
+(define (helper-exponent n e)
+  (if (= e 1)
+      n
+      (* n (helper-exponent n (- e 1)))
+  )
+ )
+
+         
+(define (exponent x exp)
+  (define n1 (helper-exponent (car x) exp))
+  (define d1 (helper-exponent (cdr x) exp))
+  (simplify n1 d1)
+)
+
+; CONVERSION
+
+
+
