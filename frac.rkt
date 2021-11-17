@@ -154,7 +154,7 @@
 (display "\n")
   )
 
-;Mixed
+;Mixed Use print ()
 (define (mixed-display mix)
 (display "  ")
 (display (cddr mix))
